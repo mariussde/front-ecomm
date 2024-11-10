@@ -60,12 +60,19 @@ CREATE TABLE
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
   );
 
+CREATE TABLE related_products (
+    product_id BIGINT REFERENCES products(id) ON DELETE CASCADE,
+    related_product_id BIGINT REFERENCES products(id) ON DELETE CASCADE,
+    PRIMARY KEY (product_id, related_product_id)
+  );
+
 -- Indexes for better performance
 CREATE INDEX idx_products_slug ON products (slug);
 CREATE INDEX idx_products_featured ON products (is_featured);
 CREATE INDEX idx_products_category ON products (category_id);
 CREATE INDEX idx_categories_slug ON categories (slug);
 CREATE INDEX idx_cart_items_cart_id ON cart_items (cart_id);
+CREATE INDEX idx_related_products ON related_products(product_id);
 
 ------ Populate
 
@@ -113,7 +120,7 @@ VALUES
   ('Cityscape Print Collection', 'cityscape', 'Urban landscape photography collection', 249.99, 25, FALSE, 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000', 7),
   ('Night City Photography', 'night-city', 'City lights and nighttime urban scenes', 179.99, 30, FALSE, 'https://images.unsplash.com/photo-1514565131-fce0801e5785', 7),
   ('Street Photography Series', 'street-series', 'Urban life and street photography collection', 199.99, 20, FALSE, 'https://images.unsplash.com/photo-1476973422084-5b37b8f53a03', 7);
-
+  
 -- Insert a Cart
 WITH inserted_cart AS (
   INSERT INTO carts (created_at, updated_at)
@@ -145,3 +152,9 @@ FROM inserted_order,
     (1, 2, 2, 99.99),
     (1, 3, 1, 999.99)
   ) AS items(order_id, product_id, quantity, price_at_time);
+
+INSERT INTO related_products (product_id, related_product_id)
+VALUES 
+    (1, 2),  -- Wedding Photography Package
+    (1, 3),  -- Family Photo Session
+    (1, 4)
