@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ShoppingCart } from 'lucide-react';
 import { Product } from '@/types';
@@ -31,34 +30,29 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      <Link href={`/product/${product.id}`}>
-        <div className="relative aspect-square w-full overflow-hidden">
-          <Image
-            src={product.urlImage}
-            alt={product.name}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-110"
-          />
-          {isHovered && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="absolute inset-0 flex items-center justify-center bg-black/40"
+      <div className="relative aspect-square w-full overflow-hidden">
+        <Image
+          src={product.urlImage}
+          alt={product.name}
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute inset-0 flex items-center justify-center bg-black/40"
+          >
+            <Button
+              onClick={() => cart.addItem(product)}
+              className="flex items-center gap-2"
             >
-              <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                  cart.addItem(product);
-                }}
-                className="flex items-center gap-2"
-              >
-                <ShoppingCart className="h-4 w-4" />
-                Add to Cart
-              </Button>
-            </motion.div>
-          )}
-        </div>
-      </Link>
+              <ShoppingCart className="h-4 w-4" />
+              Add to Cart
+            </Button>
+          </motion.div>
+        )}
+      </div>
       <div className="p-4">
         <h3 className="text-lg font-semibold">{product.name}</h3>
         <p className="text-sm text-gray-600">{product.subname}</p>

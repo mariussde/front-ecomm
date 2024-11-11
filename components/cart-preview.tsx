@@ -55,7 +55,7 @@ export function CartPreview() {
                 <p className="text-sm text-gray-600">{item.product.subname}</p>
                 <div className="mt-2 flex items-center justify-between">
                   <span className="font-bold">
-                    ${item.product.price * item.quantity}
+                    ${(item.product.price * item.quantity).toFixed(2)}
                   </span>
                   <div className="flex items-center gap-2">
                     <Button
@@ -92,7 +92,7 @@ export function CartPreview() {
             <div className="mt-4">
               <div className="mb-4 flex items-center justify-between border-t pt-4">
                 <span className="text-lg font-semibold">Total:</span>
-                <span className="text-lg font-bold">${cart.total}</span>
+                <span className="text-lg font-bold">${cart.total.toFixed(2)}</span>
               </div>
               <Button className="w-full">Checkout</Button>
             </div>

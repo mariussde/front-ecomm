@@ -30,14 +30,14 @@ export const useCart = create<CartStore>()(
                   ? { ...item, quantity: item.quantity + 1 }
                   : item
               ),
-              total: state.total + product.price,
+              total: parseFloat((state.total + product.price).toFixed(2)),
             };
           }
 
           return {
             ...state,
             items: [...state.items, { product, quantity: 1 }],
-            total: state.total + product.price,
+            total: parseFloat((state.total + product.price).toFixed(2)),
           };
         }),
       removeItem: (productId: string) =>
@@ -48,7 +48,7 @@ export const useCart = create<CartStore>()(
           return {
             ...state,
             items: state.items.filter((i) => i.product.id !== productId),
-            total: state.total - item.product.price * item.quantity,
+            total: parseFloat((state.total - item.product.price * item.quantity).toFixed(2)),
           };
         }),
       updateQuantity: (productId: string, quantity: number) =>
@@ -56,13 +56,15 @@ export const useCart = create<CartStore>()(
           const item = state.items.find((i) => i.product.id === productId);
           if (!item) return state;
 
-          const quantityDiff = quantity - item.quantity;
+          const newQuantity = Math.max(1, quantity);
+          const quantityDiff = newQuantity - item.quantity;
+          
           return {
             ...state,
             items: state.items.map((i) =>
-              i.product.id === productId ? { ...i, quantity } : i
+              i.product.id === productId ? { ...i, quantity: newQuantity } : i
             ),
-            total: state.total + item.product.price * quantityDiff,
+            total: parseFloat((state.total + item.product.price * quantityDiff).toFixed(2)),
           };
         }),
       clearCart: () => set({ items: [], total: 0 }),

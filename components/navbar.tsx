@@ -18,19 +18,7 @@ export function Navbar() {
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             All Products
-          </Link>
-          <Link
-            href="/products?category=premium"
-            className="text-sm font-medium text-gray-700 hover:text-gray-900"
-          >
-            Premium
-          </Link>
-          <Link
-            href="/products?category=nature"
-            className="text-sm font-medium text-gray-700 hover:text-gray-900"
-          >
-            Nature
-          </Link>
+          </Link>    
         </nav>
         <div className="flex items-center gap-4">
           <CartPreview />
